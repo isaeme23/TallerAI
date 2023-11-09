@@ -32,7 +32,7 @@ def college_programs_info(query:str) -> str:
     docsearch = Pinecone.from_existing_index(index_name, embeddings)
     qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="refine",
                                      retriever=docsearch.as_retriever(type="similarity"))
-    query = "Ingenieria de software esta acreditada?"
+    return qa.run(query)
 
 def main():
     llm = ChatOpenAI(temperature=0)
