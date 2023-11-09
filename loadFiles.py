@@ -3,10 +3,13 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Pinecone
 from langchain.document_loaders import TextLoader
+from langchain.vectorstores import Chroma
+from langchain.chains import RetrievalQA
+from langchain.llms import OpenAI
 import pinecone
 
 
-def main():
+def load():
     files = ["docus/economia.txt", "docus/ingenieria-civil.txt", "docus/ingenieria-electrica.txt",
              "docus/ingenieria-electronica.txt", "docus/ingenieria-industrial.txt", "docus/ingenieria-sistemas.txt"]
     embeddings = OpenAIEmbeddings()
@@ -27,7 +30,6 @@ def main():
 
         # First, check if our index already exists. If it doesn't, we create it
         #if index_name not in pinecone.list_indexes():
-            # we create a new index
             # pinecone.create_index(name=index_name, metric="cosine", dimension=1536)
         # The OpenAI embedding model `text-embedding-ada-002 uses 1536 dimensions`
         docsearch = Pinecone.from_documents(docs, embeddings, index_name=index_name)
@@ -41,5 +43,18 @@ def main():
         #print(docs[0].page_content)
 
 
+def search():
+    pinecone.init(
+        api_key=os.getenv("PINECONE_API_KEY"),  # find at app.pinecone.io
+        environment=os.getenv("PINECONE_ENV"),  # next to api key in console
+    )
+    embeddings = OpenAIEmbeddings()
+    index_name = "sainapsis"
+    docsearch = Pinecone.from_existing_index(index_name, embeddings)
+    qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="refine", retriever=docsearch.as_retriever(type="similarity"))
+    query = "Ingenieria de software esta acreditada?"
+    print(qa.run(query))
+
+
 if __name__ == '__main__':
-    main()
+    search()
