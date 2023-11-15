@@ -25,6 +25,7 @@ Luego, abriremos el proyecto usando PyCharm e instalaremos las siguientes librer
 
 Antes de ejecutar el proyecto, es importante configurar las siguientes variables de entorno:
 
+![Captura de Pantalla 2023-11-15 a la(s) 2 17 14 p m](https://github.com/isaeme23/TallerAI/assets/77862058/91047d6d-b0ff-4c43-a255-3ddbbbf656f4)
 
 ## Ejecutando el proyecto
 
@@ -40,7 +41,7 @@ usados como contexto, utilizamos la funcion de 'load' para subir los documentos 
 asi se almacenarian en una base de datos de vectores en donde podriamos usarlos para nuestro RAG.
 
 ## Autores
-Isabella Manrique
+Isabella Manrique 🎄
 
 ## Versión
 1.0-SNAPSHOT
